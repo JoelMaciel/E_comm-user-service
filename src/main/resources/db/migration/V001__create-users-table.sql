@@ -1,0 +1,14 @@
+CREATE TABLE users (
+    user_id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    full_name VARCHAR(150) NOT NULL,
+    user_status ENUM('ACTIVE', 'BLOCKED') NOT NULL,
+    user_type ENUM('ADMIN', 'EMPLOYEE', 'USER') NOT NULL,
+    phone_number VARCHAR(20) NOT NULL,
+    cpf VARCHAR(20) NOT NULL,
+    image_url TEXT,
+    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
