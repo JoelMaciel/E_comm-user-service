@@ -5,7 +5,7 @@ server:
 
 spring:
   application:
-    name: ecomm-user-service
+    name: ecommerce-user-service
   datasource:
     url: jdbc:mysql://localhost:3307/users?useSSL=false&serverTimezone=UTC
     username: joel
@@ -24,7 +24,7 @@ spring:
 
 logging:
   level:
-    com.joel: TRACE
+    com.joel.users: TRACE
     root: INFO
     org.springframework.web: DEBUG
     org.hibernate: INFO
