@@ -7,7 +7,7 @@ spring:
   application:
     name: ecommerce-user-service
   datasource:
-    url: jdbc:mysql://localhost:3307/users?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3307/users?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: joel
     password: docker
     driver-class-name: com.mysql.cj.jdbc.Driver
