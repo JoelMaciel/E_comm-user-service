@@ -1,15 +1,19 @@
-package com.joel.users.domain;
+package com.joel.users.domain.entities;
 
 import com.joel.users.domain.enums.UserStatus;
 import com.joel.users.domain.enums.UserType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.type.SqlTypes;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+@Builder
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -20,6 +24,7 @@ import java.util.UUID;
 public class User {
 
     @Id
+    @JdbcTypeCode(SqlTypes.CHAR)
     @GeneratedValue(strategy = GenerationType.AUTO)
     @EqualsAndHashCode.Include
     private UUID id;
@@ -32,6 +37,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
+    @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
 
     private String phoneNumber;
@@ -43,17 +49,6 @@ public class User {
 
     @UpdateTimestamp
     private OffsetDateTime updateDate;
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
