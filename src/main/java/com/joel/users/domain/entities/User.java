@@ -19,13 +19,8 @@ import java.util.UUID;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "USERS")
 public class User {
 
-    @Id
-    @JdbcTypeCode(SqlTypes.CHAR)
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @EqualsAndHashCode.Include
     private UUID id;
 
@@ -34,21 +29,13 @@ public class User {
     private String password;
     private String fullName;
 
-    @Enumerated(EnumType.STRING)
     private UserType userType;
-
-    @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
 
     private String phoneNumber;
     private String cpf;
     private String imageUrl;
 
-    @CreationTimestamp
     private OffsetDateTime creationDate;
-
-    @UpdateTimestamp
     private OffsetDateTime updateDate;
-
-
 }
