@@ -1,5 +1,6 @@
 package com.joel.users.infrastructure.adapters.jpa;
 
+import com.joel.users.application.mapper.UserMapper;
 import com.joel.users.domain.entities.User;
 import com.joel.users.domain.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,16 +14,18 @@ import java.util.UUID;
 public class UserRepositoryImpl implements UserRepository {
 
     private final UserJpaRepository jpaRepository;
+    private final UserMapper mapper;
 
     @Override
     public Optional<User> findById(UUID id) {
-        return jpaRepository.findById(id).map(UserEntity::toDomain);
+        return jpaRepository.findById(id).map(mapper::toDomainFromEntity);
     }
 
     @Override
     public User save(User user) {
-        UserEntity entity = UserEntity.fromDomain(user);
-        return jpaRepository.save(entity).toDomain();
+        UserEntity userEntity = mapper.toEntityFromDomain(user);
+        UserEntity savedEntity = jpaRepository.save(userEntity);
+        return mapper.toDomainFromEntity(savedEntity);
     }
 
     @Override

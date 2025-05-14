@@ -11,9 +11,14 @@ services:
       - MYSQL_PASSWORD=docker
     ports:
       - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
     networks:
       - mynetwork
 
 networks:
   mynetwork:
     driver: bridge
+
+volumes:
+  mysql_data:
