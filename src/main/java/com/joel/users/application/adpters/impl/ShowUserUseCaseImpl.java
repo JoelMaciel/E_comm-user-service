@@ -25,6 +25,6 @@ public class ShowUserUseCaseImpl implements ShowUserUseCase {
     public UserDTO findById(UUID userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
-        return mapper.toDTO(user);
+        return mapper.toDto(user);
     }
 }

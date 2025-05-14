@@ -20,7 +20,8 @@ public class ListUserUseCaseImpl implements ListUserUseCase {
 
     @Override
     public Page<UserDTO> findAll(Pageable pageable) {
-        Page<User> users = userJpaRepository.findAll(pageable).map(UserEntity::toDomain);
-        return mapper.toDTOPage(users);
+        Page<UserEntity> users = userJpaRepository.findAll(pageable);
+        Page<User> domainPage = users.map(mapper::toDomainFromEntity);
+        return mapper.toDtoPage(domainPage);
     }
 }

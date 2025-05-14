@@ -24,10 +24,10 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
     public UserDTO createUser(UserRequestDTO userRequestDTO) {
         userValidator.validateUser(userRequestDTO);
 
-        User user = mapper.toEntity(userRequestDTO);
+        User user = mapper.toDomainFromDto(userRequestDTO);
 
         User userSaved = userRepository.save(user);
 
-        return mapper.toDTO(userSaved);
+        return mapper.toDto(userSaved);
     }
 }
