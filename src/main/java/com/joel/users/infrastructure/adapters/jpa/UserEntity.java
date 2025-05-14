@@ -1,15 +1,9 @@
 package com.joel.users.infrastructure.adapters.jpa;
 
-import com.joel.users.domain.entities.User;
 import com.joel.users.domain.enums.UserStatus;
 import com.joel.users.domain.enums.UserType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -55,37 +49,4 @@ public class UserEntity {
     @UpdateTimestamp
     private OffsetDateTime updateDate;
 
-    public User toDomain() {
-        return User.builder()
-                .id(this.id)
-                .username(this.username)
-                .email(this.email)
-                .password(this.password)
-                .fullName(this.fullName)
-                .userType(this.userType)
-                .userStatus(this.userStatus)
-                .phoneNumber(this.phoneNumber)
-                .cpf(this.cpf)
-                .imageUrl(this.imageUrl)
-                .creationDate(this.creationDate)
-                .updateDate(this.updateDate)
-                .build();
-    }
-
-    public static UserEntity fromDomain(User user) {
-        return UserEntity.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .password(user.getPassword())
-                .fullName(user.getFullName())
-                .userType(user.getUserType())
-                .userStatus(user.getUserStatus())
-                .phoneNumber(user.getPhoneNumber())
-                .cpf(user.getCpf())
-                .imageUrl(user.getImageUrl())
-                .creationDate(user.getCreationDate())
-                .updateDate(user.getUpdateDate())
-                .build();
-    }
 }

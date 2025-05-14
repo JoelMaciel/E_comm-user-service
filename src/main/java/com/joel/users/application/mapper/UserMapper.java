@@ -17,15 +17,40 @@ public class UserMapper {
 
     private final PasswordEncoder passwordEncoder;
 
-    public User toDomain(UserEntity entity) {
-        return entity.toDomain();
+    // DTO -> Domain
+    public User toDomainFromDto(UserRequestDTO userRequestDTO) {
+        return User.builder()
+                .username(userRequestDTO.getUsername())
+                .email(userRequestDTO.getEmail())
+                .cpf(userRequestDTO.getCpf())
+                .userStatus(UserStatus.ACTIVE)
+                .userType(UserType.USER)
+                .fullName(userRequestDTO.getFullName())
+                .phoneNumber(userRequestDTO.getPhoneNumber())
+                .password(passwordEncoder.encode(userRequestDTO.getPassword()))
+                .build();
     }
 
-    public Page<UserDTO> toDTOPage(Page<User> users) {
-        return users.map(this::toDTO);
+    // Entity (JPA) -> Domain
+    public User toDomainFromEntity(UserEntity entity) {
+        return User.builder()
+                .id(entity.getId())
+                .username(entity.getUsername())
+                .email(entity.getEmail())
+                .password(entity.getPassword())
+                .fullName(entity.getFullName())
+                .userType(entity.getUserType())
+                .userStatus(entity.getUserStatus())
+                .phoneNumber(entity.getPhoneNumber())
+                .cpf(entity.getCpf())
+                .imageUrl(entity.getImageUrl())
+                .creationDate(entity.getCreationDate())
+                .updateDate(entity.getUpdateDate())
+                .build();
     }
 
-    public UserDTO toDTO(User user) {
+    // Domain -> DTO
+    public UserDTO toDto(User user) {
         return UserDTO.builder()
                 .userId(user.getId())
                 .username(user.getUsername())
@@ -37,20 +62,30 @@ public class UserMapper {
                 .phoneNumber(user.getPhoneNumber())
                 .imageUrl(user.getImageUrl())
                 .creationDate(user.getCreationDate())
-                .updateDate((user.getUpdateDate()))
+                .updateDate(user.getUpdateDate())
                 .build();
     }
 
-    public User toEntity(UserRequestDTO userRequestDTO) {
-        return User.builder()
-                .username(userRequestDTO.getUsername())
-                .email(userRequestDTO.getEmail())
-                .cpf(userRequestDTO.getCpf())
-                .userStatus(UserStatus.ACTIVE)
-                .userType(UserType.USER)
-                .fullName(userRequestDTO.getFullName())
-                .phoneNumber(userRequestDTO.getPhoneNumber())
-                .password(passwordEncoder.encode(userRequestDTO.getPassword()))
+    // Domain -> Entity (JPA)
+    public UserEntity toEntityFromDomain(User domain) {
+        return UserEntity.builder()
+                .id(domain.getId())
+                .username(domain.getUsername())
+                .email(domain.getEmail())
+                .password(domain.getPassword())
+                .fullName(domain.getFullName())
+                .userType(domain.getUserType())
+                .userStatus(domain.getUserStatus())
+                .phoneNumber(domain.getPhoneNumber())
+                .cpf(domain.getCpf())
+                .imageUrl(domain.getImageUrl())
+                .creationDate(domain.getCreationDate())
+                .updateDate(domain.getUpdateDate())
                 .build();
+    }
+
+    // Page<User> -> Page<UserDTO>
+    public Page<UserDTO> toDtoPage(Page<User> users) {
+        return users.map(this::toDto);
     }
 }
