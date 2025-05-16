@@ -3,7 +3,7 @@ package com.joel.users.application.adpters.impl;
 import com.joel.users.application.dtos.request.UserRequestDTO;
 import com.joel.users.application.dtos.response.UserDTO;
 import com.joel.users.application.mapper.UserMapper;
-import com.joel.users.application.ports.CreateUserUseCase;
+import com.joel.users.application.ports.usecases.users.CreateUserUseCase;
 import com.joel.users.application.validator.UserValidator;
 import com.joel.users.domain.entities.User;
 import com.joel.users.domain.repositories.UserRepository;

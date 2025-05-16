@@ -1,8 +1,8 @@
 package com.joel.users.infrastructure.adapters.api.controllers;
 
 import com.joel.users.application.dtos.response.UserDTO;
-import com.joel.users.application.ports.ListUserUseCase;
-import com.joel.users.application.ports.ShowUserUseCase;
+import com.joel.users.application.ports.usecases.users.ListUserUseCase;
+import com.joel.users.application.ports.usecases.users.ShowUserUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

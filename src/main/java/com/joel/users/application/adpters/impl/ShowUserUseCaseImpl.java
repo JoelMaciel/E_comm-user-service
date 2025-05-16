@@ -2,7 +2,7 @@ package com.joel.users.application.adpters.impl;
 
 import com.joel.users.application.dtos.response.UserDTO;
 import com.joel.users.application.mapper.UserMapper;
-import com.joel.users.application.ports.ShowUserUseCase;
+import com.joel.users.application.ports.usecases.users.ShowUserUseCase;
 import com.joel.users.domain.entities.User;
 import com.joel.users.domain.exceptions.UserNotFoundException;
 import com.joel.users.domain.repositories.UserRepository;

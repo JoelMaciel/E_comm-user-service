@@ -2,7 +2,7 @@ package com.joel.users.infrastructure.adapters.api.controllers;
 
 import com.joel.users.application.dtos.request.UserRequestDTO;
 import com.joel.users.application.dtos.response.UserDTO;
-import com.joel.users.application.ports.CreateUserUseCase;
+import com.joel.users.application.ports.usecases.users.CreateUserUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.joel.users.application.ports;
+package com.joel.users.application.ports.usecases.users;
 
 import com.joel.users.application.dtos.response.UserDTO;
 

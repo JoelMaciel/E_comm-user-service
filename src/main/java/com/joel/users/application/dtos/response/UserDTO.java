@@ -18,11 +18,11 @@ public class UserDTO {
     private UUID userId;
     private String username;
     private String email;
+    private String cpf;
     private String fullName;
     private String userStatus;
     private String userType;
     private String phoneNumber;
-    private String cpf;
     private String imageUrl;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-YYYY HH:mm:ss")
