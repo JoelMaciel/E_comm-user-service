@@ -1,8 +1,7 @@
-package com.joel.users.application.adpters.impl;
+package com.joel.users.application.adapters.impl;
 
-import com.joel.users.application.dtos.response.UserDTO;
 import com.joel.users.application.mapper.UserMapper;
-import com.joel.users.application.ports.ShowUserUseCase;
+import com.joel.users.application.ports.usecases.users.ShowUserUseCase;
 import com.joel.users.domain.entities.User;
 import com.joel.users.domain.exceptions.UserNotFoundException;
 import com.joel.users.domain.repositories.UserRepository;
@@ -22,9 +21,8 @@ public class ShowUserUseCaseImpl implements ShowUserUseCase {
 
     @Transactional
     @Override
-    public UserDTO findById(UUID userId) {
-        User user = userRepository.findById(userId)
+    public User findById(UUID userId) {
+        return userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
-        return mapper.toDto(user);
     }
 }
