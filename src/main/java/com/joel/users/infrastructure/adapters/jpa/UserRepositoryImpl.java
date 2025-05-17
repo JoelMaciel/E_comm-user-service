@@ -2,8 +2,12 @@ package com.joel.users.infrastructure.adapters.jpa;
 
 import com.joel.users.application.mapper.UserMapper;
 import com.joel.users.domain.entities.User;
+import com.joel.users.domain.pagination.Pagination;
 import com.joel.users.domain.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -15,6 +19,20 @@ public class UserRepositoryImpl implements UserRepository {
 
     private final UserJpaRepository jpaRepository;
     private final UserMapper mapper;
+
+    @Override
+    public Pagination<User> findAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<UserEntity> jpaPage = jpaRepository.findAll(pageable);
+        return new Pagination<>(
+                jpaPage.getContent().stream()
+                        .map(mapper::toDomainFromEntity)
+                        .toList(),
+                jpaPage.getNumber(),
+                jpaPage.getSize(),
+                jpaPage.getTotalElements()
+        );
+    }
 
     @Override
     public Optional<User> findById(UUID id) {
