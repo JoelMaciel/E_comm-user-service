@@ -66,21 +66,6 @@ public class UserMapper {
                 .build();
     }
 
-    public UserDTO toDto(User user) {
-        return UserDTO.builder()
-                .userId(user.getId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .fullName(user.getFullName())
-                .phoneNumber(user.getPhoneNumber())
-                .userStatus(user.getUserStatus().toString())
-                .userType(user.getUserType().toString())
-                .cpf(user.getCpf())
-                .imageUrl(user.getImageUrl())
-                .creationDate(user.getCreationDate())
-                .updateDate(user.getUpdateDate())
-                .build();
-    }
 
     public UserEntity toEntityFromDomain(User domain) {
         return UserEntity.builder()
@@ -98,7 +83,6 @@ public class UserMapper {
                 .updateDate(domain.getUpdateDate())
                 .build();
     }
-
 
     public UserDTO toDtoFromDomain(User user) {
         return UserDTO.builder()

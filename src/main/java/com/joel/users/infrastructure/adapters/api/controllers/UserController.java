@@ -3,6 +3,7 @@ package com.joel.users.infrastructure.adapters.api.controllers;
 import com.joel.users.application.dtos.response.PaginationDTO;
 import com.joel.users.application.dtos.response.UserDTO;
 import com.joel.users.application.mapper.UserMapper;
+import com.joel.users.application.ports.usecases.users.DeleteUserUseCase;
 import com.joel.users.application.ports.usecases.users.ListUserUseCase;
 import com.joel.users.application.ports.usecases.users.ShowUserUseCase;
 import com.joel.users.domain.entities.User;
@@ -20,6 +21,7 @@ public class UserController {
 
     private final ShowUserUseCase showUserUseCase;
     private final ListUserUseCase listUserUseCase;
+    private final DeleteUserUseCase deleteUserUseCase;
     private final UserMapper mapper;
 
     @GetMapping
@@ -36,6 +38,12 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public UserDTO getOne(@PathVariable UUID userId) {
         return mapper.toDtoFromDomain(showUserUseCase.findById(userId));
+    }
+
+    @DeleteMapping("/{userId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteUser(@PathVariable UUID userId) {
+        deleteUserUseCase.delete(userId);
     }
 
 }
