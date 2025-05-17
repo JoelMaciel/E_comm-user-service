@@ -1,10 +1,9 @@
 package com.joel.users.application.ports.usecases.users;
 
-import com.joel.users.application.dtos.response.UserDTO;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.joel.users.domain.entities.User;
+import com.joel.users.domain.pagination.Pagination;
 
 public interface ListUserUseCase {
 
-    Page<UserDTO> findAll(Pageable pageable);
+    Pagination<User> findAll(int page, int size);
 }
