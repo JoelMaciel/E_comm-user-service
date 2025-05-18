@@ -14,6 +14,8 @@ public interface UserRepository {
 
     Pagination<User> findAll(int page, int size);
 
+    User update(UUID id, User user);
+
     void deleteById(UUID id);
 
     boolean existsByUsername(String username);
