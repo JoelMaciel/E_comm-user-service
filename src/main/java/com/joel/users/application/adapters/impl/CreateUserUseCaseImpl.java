@@ -1,6 +1,6 @@
 package com.joel.users.application.adapters.impl;
 
-import com.joel.users.application.commands.UserCreateCommand;
+import com.joel.users.application.commands.CreateUserCommand;
 import com.joel.users.application.mapper.UserMapper;
 import com.joel.users.application.ports.usecases.users.CreateUserUseCase;
 import com.joel.users.application.validator.UserValidator;
@@ -20,10 +20,10 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
 
     @Transactional
     @Override
-    public User execute(UserCreateCommand userCreateCommand) {
-        userValidator.validateUser(userCreateCommand);
+    public User execute(CreateUserCommand createUserCommand) {
+        userValidator.validateUser(createUserCommand);
 
-        User user = mapper.toDomainFromCommand(userCreateCommand);
+        User user = mapper.toDomainFromCommand(createUserCommand);
 
         return userRepository.save(user);
     }

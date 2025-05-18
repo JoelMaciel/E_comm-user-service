@@ -1,6 +1,9 @@
 package com.joel.users.application.commands;
 
-public record UserCreateCommand(
+import lombok.Builder;
+
+@Builder
+public record CreateUserCommand(
         String username,
         String email,
         String password,

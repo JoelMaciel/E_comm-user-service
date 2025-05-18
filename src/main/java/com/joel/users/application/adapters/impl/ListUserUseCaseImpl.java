@@ -16,7 +16,7 @@ public class ListUserUseCaseImpl implements ListUserUseCase {
 
     @Transactional(readOnly = true)
     @Override
-    public Pagination<User> findAll(int page, int size) {
+    public Pagination<User> execute(int page, int size) {
         return userRepository.findAll(page, size);
     }
 }

@@ -1,6 +1,6 @@
 package com.joel.users.application.adapters.impl;
 
-import com.joel.users.application.commands.UserUpdateCommand;
+import com.joel.users.application.commands.UpdateUserCommand;
 import com.joel.users.application.mapper.UserMapper;
 import com.joel.users.application.ports.usecases.users.ShowUserUseCase;
 import com.joel.users.application.ports.usecases.users.UpdateUserUseCase;
@@ -22,12 +22,12 @@ public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
 
     @Transactional
     @Override
-    public User execute(UserUpdateCommand userUpdateCommand) {
-        User existingUser = showUserUseCase.findById(userUpdateCommand.userId());
-        userValidator.validateUpdateUser(userUpdateCommand, existingUser.getUsername());
+    public User execute(UpdateUserCommand updateUserCommand) {
+        User existingUser = showUserUseCase.findById(updateUserCommand.userId());
+        userValidator.validateUpdateUser(updateUserCommand, existingUser.getUsername());
 
-        User updatedUser = mapper.toDomainFromCommand(userUpdateCommand, existingUser);
+        User updatedUser = mapper.toDomainFromCommand(updateUserCommand, existingUser);
 
-        return userRepository.update(userUpdateCommand.userId(), updatedUser);
+        return userRepository.update(updateUserCommand.userId(), updatedUser);
     }
 }

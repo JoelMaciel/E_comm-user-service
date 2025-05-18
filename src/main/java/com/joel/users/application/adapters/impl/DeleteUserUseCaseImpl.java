@@ -19,7 +19,7 @@ public class DeleteUserUseCaseImpl implements DeleteUserUseCase {
 
     @Transactional
     @Override
-    public void delete(UUID id) {
+    public void execute(UUID id) {
         userRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new);
         userRepository.deleteById(id);

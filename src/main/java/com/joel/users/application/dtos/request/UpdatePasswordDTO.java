@@ -9,19 +9,12 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserUpdateRequestDTO {
+public class UpdatePasswordDTO {
 
     @NotBlank
-    @Size(min = 6, max = 50)
-    private String username;
-
-
-    @NotBlank
-    @Size(min = 10, max = 150)
-    private String fullName;
+    @Size(min = 8, max = 100)
+    private String password;
 
     @NotBlank
-    @Size(min = 10, max = 15)
-    private String phoneNumber;
-
+    private String oldPassword;
 }

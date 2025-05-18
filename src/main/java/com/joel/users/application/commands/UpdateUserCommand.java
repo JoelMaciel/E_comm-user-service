@@ -1,8 +1,11 @@
 package com.joel.users.application.commands;
 
+import lombok.Builder;
+
 import java.util.UUID;
 
-public record UserUpdateCommand(
+@Builder
+public record UpdateUserCommand(
         UUID userId,
         String username,
         String fullName,
