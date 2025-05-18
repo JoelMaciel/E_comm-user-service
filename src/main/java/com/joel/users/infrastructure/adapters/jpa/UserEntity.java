@@ -16,7 +16,7 @@ import java.util.UUID;
 @Table(name = "USERS")
 @Getter
 @Setter
-@Builder
+@Builder(toBuilder = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 @NoArgsConstructor

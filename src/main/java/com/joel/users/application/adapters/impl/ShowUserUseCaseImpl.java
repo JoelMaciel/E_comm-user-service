@@ -1,6 +1,5 @@
 package com.joel.users.application.adapters.impl;
 
-import com.joel.users.application.mapper.UserMapper;
 import com.joel.users.application.ports.usecases.users.ShowUserUseCase;
 import com.joel.users.domain.entities.User;
 import com.joel.users.domain.exceptions.UserNotFoundException;
@@ -17,7 +16,6 @@ import java.util.UUID;
 public class ShowUserUseCaseImpl implements ShowUserUseCase {
 
     private final UserRepository userRepository;
-    private final UserMapper mapper;
 
     @Transactional(readOnly = true)
     @Override

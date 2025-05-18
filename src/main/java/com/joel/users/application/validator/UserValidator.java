@@ -1,6 +1,7 @@
 package com.joel.users.application.validator;
 
-import com.joel.users.application.dtos.request.UserRequestDTO;
+import com.joel.users.application.commands.UserCreateCommand;
+import com.joel.users.application.commands.UserUpdateCommand;
 import com.joel.users.domain.exceptions.CpfAlreadyExistsException;
 import com.joel.users.domain.exceptions.EmailAlreadyExistsException;
 import com.joel.users.domain.exceptions.UsernameAlreadyExistsException;
@@ -18,31 +19,36 @@ public class UserValidator {
 
     private final UserRepository userRepository;
 
-
-    public void validateUser(UserRequestDTO userRequestDTO) {
-        if (existsByUserName(userRequestDTO.getUsername())) {
+    public void validateUser(UserCreateCommand userCommand) {
+        if (existsByUsername(userCommand.username())) {
             throw new UsernameAlreadyExistsException(MSG_USERNAME_ALREADY_EXISTS);
         }
 
-        if (existsByCpf(userRequestDTO.getCpf())) {
+        if (existsByCpf(userCommand.cpf())) {
             throw new CpfAlreadyExistsException(MSG_CPF_ALREADY_EXISTS);
         }
 
-        if (existsByEmail(userRequestDTO.getEmail())) {
+        if (existsByEmail(userCommand.email())) {
             throw new EmailAlreadyExistsException(MSG_EMAIL_ALREADY_EXISTS);
         }
     }
+
+    public void validateUpdateUser(UserUpdateCommand userUpdateCommand, String username) {
+        if (existsByUsername(userUpdateCommand.username()) && !userUpdateCommand.username().equals(username)) {
+            throw new UsernameAlreadyExistsException(MSG_USERNAME_ALREADY_EXISTS);
+        }
+    }
+
 
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
 
-    public boolean existsByUserName(String userName) {
-        return userRepository.existsByUsername(userName);
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
     }
 
     public boolean existsByCpf(String cpf) {
         return userRepository.existsByCpf(cpf);
     }
-
 }
