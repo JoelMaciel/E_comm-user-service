@@ -61,20 +61,20 @@ public class UserMapper {
     }
 
 
-    public UserEntity toEntityFromDomain(User domain) {
+    public UserEntity toEntityFromDomain(User user) {
         return UserEntity.builder()
-                .id(domain.getId())
-                .username(domain.getUsername())
-                .email(domain.getEmail())
-                .password(domain.getPassword())
-                .fullName(domain.getFullName())
-                .userType(domain.getUserType())
-                .userStatus(domain.getUserStatus())
-                .phoneNumber(domain.getPhoneNumber())
-                .cpf(domain.getCpf())
-                .imageUrl(domain.getImageUrl())
-                .creationDate(domain.getCreationDate())
-                .updateDate(domain.getUpdateDate())
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .fullName(user.getFullName())
+                .userType(user.getUserType())
+                .userStatus(user.getUserStatus())
+                .phoneNumber(user.getPhoneNumber())
+                .cpf(user.getCpf())
+                .imageUrl(user.getImageUrl())
+                .creationDate(user.getCreationDate())
+                .updateDate(user.getUpdateDate())
                 .build();
     }
 
@@ -136,16 +136,16 @@ public class UserMapper {
                 .build();
     }
 
-    public User toDomainFromCommand(CreateUserCommand command) {
+    public User toDomainFromCommand(CreateUserCommand createUserCommand) {
         return User.builder()
-                .username(command.username())
-                .email(command.email())
-                .cpf(command.cpf())
+                .username(createUserCommand.username())
+                .email(createUserCommand.email())
+                .cpf(createUserCommand.cpf())
                 .userStatus(UserStatus.ACTIVE)
                 .userType(UserType.USER)
-                .fullName(command.fullName())
-                .phoneNumber(command.phoneNumber())
-                .password(passwordEncoder.encode(command.password()))
+                .fullName(createUserCommand.fullName())
+                .phoneNumber(createUserCommand.phoneNumber())
+                .password(passwordEncoder.encode(createUserCommand.password()))
                 .creationDate(OffsetDateTime.now())
                 .updateDate(OffsetDateTime.now())
                 .build();
