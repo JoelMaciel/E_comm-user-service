@@ -1,7 +1,9 @@
 package com.joel.users.infrastructure.adapters.api.controllers;
 
+import com.joel.users.application.commands.EmployeeCommand;
 import com.joel.users.application.commands.UpdatePasswordCommand;
 import com.joel.users.application.commands.UpdateUserCommand;
+import com.joel.users.application.dtos.request.EmployeeRequestDTO;
 import com.joel.users.application.dtos.request.UpdatePasswordDTO;
 import com.joel.users.application.dtos.request.UpdateUserRequestDTO;
 import com.joel.users.application.dtos.response.PaginationDTO;
@@ -24,12 +26,14 @@ import java.util.UUID;
 public class UserController {
 
     public static final String MSG_UPDATE_PASSWORD = "Password updated successfully.";
+    public static final String MSG_UPDATE_EMPLOYEE = "Employee role assigned successfully.";
 
     private final ShowUserUseCase showUserUseCase;
     private final ListUserUseCase listUserUseCase;
     private final DeleteUserUseCase deleteUserUseCase;
     private final UpdateUserUseCase updateUserUseCase;
     private final UpdatePasswordUseCase updatePasswordUseCase;
+    private final AssignEmployeeRoleUseCase assignEmployeeRoleUseCase;
     private final UserMapper mapper;
 
     @GetMapping
@@ -66,10 +70,21 @@ public class UserController {
 
     @PatchMapping("/{userId}/password")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> updatePassword(@PathVariable UUID userId, @RequestBody @Valid UpdatePasswordDTO updatePasswordDTO) {
+    public ResponseEntity<String> updatePassword(
+            @PathVariable UUID userId,
+            @RequestBody @Valid UpdatePasswordDTO updatePasswordDTO
+    ) {
         UpdatePasswordCommand userCommand = mapper.toUpdatePasswordFromDomain(userId, updatePasswordDTO);
         updatePasswordUseCase.execute(userCommand);
         return ResponseEntity.ok(MSG_UPDATE_PASSWORD);
+    }
+
+    @PatchMapping("/employee")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> assignEmployeeRole(@RequestBody @Valid EmployeeRequestDTO employeeRequestDTO) {
+        EmployeeCommand employeeCommand = mapper.toEmployeeCommandFromDto(employeeRequestDTO);
+        assignEmployeeRoleUseCase.execute(employeeCommand);
+        return ResponseEntity.ok(MSG_UPDATE_EMPLOYEE);
     }
 
 }

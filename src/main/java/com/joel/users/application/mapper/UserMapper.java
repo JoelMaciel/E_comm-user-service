@@ -1,9 +1,11 @@
 package com.joel.users.application.mapper;
 
 import com.joel.users.application.commands.CreateUserCommand;
+import com.joel.users.application.commands.EmployeeCommand;
 import com.joel.users.application.commands.UpdatePasswordCommand;
 import com.joel.users.application.commands.UpdateUserCommand;
 import com.joel.users.application.dtos.request.CreateUserRequestDTO;
+import com.joel.users.application.dtos.request.EmployeeRequestDTO;
 import com.joel.users.application.dtos.request.UpdatePasswordDTO;
 import com.joel.users.application.dtos.request.UpdateUserRequestDTO;
 import com.joel.users.application.dtos.response.PaginationDTO;
@@ -102,6 +104,12 @@ public class UserMapper {
                 .build();
     }
 
+    public EmployeeCommand toEmployeeCommandFromDto(EmployeeRequestDTO dto) {
+        return EmployeeCommand.builder()
+                .userId(dto.getUserId())
+                .build();
+    }
+
     public CreateUserCommand toCreateCommandFromDto(CreateUserRequestDTO dto) {
         return CreateUserCommand.builder()
                 .username(dto.getUsername())
@@ -152,6 +160,13 @@ public class UserMapper {
                 .updateDate(OffsetDateTime.now())
                 .build();
 
+    }
+
+    public User toUpdateEmployeeDomainFromCommand(User user) {
+        return user.toBuilder()
+                .userType(UserType.EMPLOYEE)
+                .updateDate(OffsetDateTime.now())
+                .build();
     }
 
     public void updateEntityFromDomain(UserEntity entity, User user) {

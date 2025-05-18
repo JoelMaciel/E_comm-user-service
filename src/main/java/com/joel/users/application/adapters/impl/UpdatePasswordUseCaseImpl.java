@@ -10,6 +10,7 @@ import com.joel.users.domain.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ public class UpdatePasswordUseCaseImpl implements UpdatePasswordUseCase {
     private final UserMapper mapper;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     @Override
     public void execute(UpdatePasswordCommand updatePasswordCommand) {
 
