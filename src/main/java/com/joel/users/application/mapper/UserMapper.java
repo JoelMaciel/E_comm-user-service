@@ -1,6 +1,9 @@
 package com.joel.users.application.mapper;
 
+import com.joel.users.application.commands.UserCreateCommand;
+import com.joel.users.application.commands.UserUpdateCommand;
 import com.joel.users.application.dtos.request.UserRequestDTO;
+import com.joel.users.application.dtos.request.UserUpdateRequestDTO;
 import com.joel.users.application.dtos.response.PaginationDTO;
 import com.joel.users.application.dtos.response.UserDTO;
 import com.joel.users.domain.entities.User;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Component
@@ -34,20 +38,6 @@ public class UserMapper {
         );
     }
 
-    public User toDomainFromDto(UserRequestDTO userRequestDTO) {
-        return User.builder()
-                .username(userRequestDTO.getUsername())
-                .email(userRequestDTO.getEmail())
-                .cpf(userRequestDTO.getCpf())
-                .userStatus(UserStatus.ACTIVE)
-                .userType(UserType.USER)
-                .fullName(userRequestDTO.getFullName())
-                .phoneNumber(userRequestDTO.getPhoneNumber())
-                .password(passwordEncoder.encode(userRequestDTO.getPassword()))
-                .creationDate(OffsetDateTime.now())
-                .updateDate(OffsetDateTime.now())
-                .build();
-    }
 
     public User toDomainFromEntity(UserEntity entity) {
         return User.builder()
@@ -66,21 +56,6 @@ public class UserMapper {
                 .build();
     }
 
-    public UserDTO toDto(User user) {
-        return UserDTO.builder()
-                .userId(user.getId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .fullName(user.getFullName())
-                .phoneNumber(user.getPhoneNumber())
-                .userStatus(user.getUserStatus().toString())
-                .userType(user.getUserType().toString())
-                .cpf(user.getCpf())
-                .imageUrl(user.getImageUrl())
-                .creationDate(user.getCreationDate())
-                .updateDate(user.getUpdateDate())
-                .build();
-    }
 
     public UserEntity toEntityFromDomain(User domain) {
         return UserEntity.builder()
@@ -115,4 +90,59 @@ public class UserMapper {
                 .updateDate(user.getUpdateDate())
                 .build();
     }
+
+    public UserUpdateCommand toUpdateCommandFromDto(UUID userId, UserUpdateRequestDTO dto) {
+        return new UserUpdateCommand(
+                userId,
+                dto.getUsername(),
+                dto.getFullName(),
+                dto.getPhoneNumber()
+        );
+    }
+
+    public UserCreateCommand toCreateCommandFromDto(UserRequestDTO dto) {
+        return new UserCreateCommand(
+                dto.getUsername(),
+                dto.getEmail(),
+                dto.getPassword(),
+                dto.getFullName(),
+                dto.getPhoneNumber(),
+                dto.getCpf()
+        );
+    }
+
+
+    public User toDomainFromCommand(UserCreateCommand command) {
+        return User.builder()
+                .username(command.username())
+                .email(command.email())
+                .cpf(command.cpf())
+                .userStatus(UserStatus.ACTIVE)
+                .userType(UserType.USER)
+                .fullName(command.fullName())
+                .phoneNumber(command.phoneNumber())
+                .password(passwordEncoder.encode(command.password()))
+                .creationDate(OffsetDateTime.now())
+                .updateDate(OffsetDateTime.now())
+                .build();
+    }
+
+
+    public User toDomainFromCommand(UserUpdateCommand userUpdateCommand, User existingUser) {
+        return existingUser.toBuilder()
+                .username(userUpdateCommand.username())
+                .fullName(userUpdateCommand.fullName())
+                .phoneNumber(userUpdateCommand.phoneNumber())
+                .updateDate(OffsetDateTime.now())
+                .build();
+
+    }
+
+    public void updateEntityFromDomain(UserEntity entity, User user) {
+        entity.setUsername(user.getUsername());
+        entity.setFullName(user.getFullName());
+        entity.setPhoneNumber(user.getPhoneNumber());
+        entity.setUpdateDate(OffsetDateTime.now());
+    }
+
 }

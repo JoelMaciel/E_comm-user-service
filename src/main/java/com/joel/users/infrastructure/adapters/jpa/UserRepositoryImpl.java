@@ -34,16 +34,27 @@ public class UserRepositoryImpl implements UserRepository {
         );
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Override
-    public Optional<User> findById(UUID id) {
-        return jpaRepository.findById(id).map(mapper::toDomainFromEntity);
+    public User update(UUID id, User user) {
+        UserEntity existingEntity = jpaRepository.findById(id).get();
+        mapper.updateEntityFromDomain(existingEntity, user);
+        UserEntity saved = jpaRepository.save(existingEntity);
+        return mapper.toDomainFromEntity(saved);
     }
+
 
     @Override
     public User save(User user) {
         UserEntity userEntity = mapper.toEntityFromDomain(user);
         UserEntity savedEntity = jpaRepository.save(userEntity);
         return mapper.toDomainFromEntity(savedEntity);
+    }
+
+    @Override
+    public Optional<User> findById(UUID id) {
+        return jpaRepository.findById(id)
+                .map(mapper::toDomainFromEntity);
     }
 
     @Override

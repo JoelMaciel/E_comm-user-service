@@ -6,5 +6,5 @@ public record PaginationDTO<T>(
     List<T> content,
     int currentPage,
     int pageSize,
-    long totalItems
+    long totalElements
 ) {}
