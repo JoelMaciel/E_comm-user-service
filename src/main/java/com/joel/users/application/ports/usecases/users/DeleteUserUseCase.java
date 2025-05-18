@@ -4,5 +4,5 @@ import java.util.UUID;
 
 public interface DeleteUserUseCase {
 
-    void delete(UUID id);
+    void execute(UUID id);
 }

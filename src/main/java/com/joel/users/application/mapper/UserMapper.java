@@ -1,9 +1,13 @@
 package com.joel.users.application.mapper;
 
-import com.joel.users.application.commands.UserCreateCommand;
-import com.joel.users.application.commands.UserUpdateCommand;
-import com.joel.users.application.dtos.request.UserRequestDTO;
-import com.joel.users.application.dtos.request.UserUpdateRequestDTO;
+import com.joel.users.application.commands.CreateUserCommand;
+import com.joel.users.application.commands.EmployeeCommand;
+import com.joel.users.application.commands.UpdatePasswordCommand;
+import com.joel.users.application.commands.UpdateUserCommand;
+import com.joel.users.application.dtos.request.CreateUserRequestDTO;
+import com.joel.users.application.dtos.request.EmployeeRequestDTO;
+import com.joel.users.application.dtos.request.UpdatePasswordDTO;
+import com.joel.users.application.dtos.request.UpdateUserRequestDTO;
 import com.joel.users.application.dtos.response.PaginationDTO;
 import com.joel.users.application.dtos.response.UserDTO;
 import com.joel.users.domain.entities.User;
@@ -91,28 +95,48 @@ public class UserMapper {
                 .build();
     }
 
-    public UserUpdateCommand toUpdateCommandFromDto(UUID userId, UserUpdateRequestDTO dto) {
-        return new UserUpdateCommand(
-                userId,
-                dto.getUsername(),
-                dto.getFullName(),
-                dto.getPhoneNumber()
-        );
+    public UpdateUserCommand toUpdateCommandFromDto(UUID userId, UpdateUserRequestDTO dto) {
+        return UpdateUserCommand.builder()
+                .userId(userId)
+                .username(dto.getUsername())
+                .fullName(dto.getFullName())
+                .phoneNumber(dto.getPhoneNumber())
+                .build();
     }
 
-    public UserCreateCommand toCreateCommandFromDto(UserRequestDTO dto) {
-        return new UserCreateCommand(
-                dto.getUsername(),
-                dto.getEmail(),
-                dto.getPassword(),
-                dto.getFullName(),
-                dto.getPhoneNumber(),
-                dto.getCpf()
-        );
+    public EmployeeCommand toEmployeeCommandFromDto(EmployeeRequestDTO dto) {
+        return EmployeeCommand.builder()
+                .userId(dto.getUserId())
+                .build();
     }
 
+    public CreateUserCommand toCreateCommandFromDto(CreateUserRequestDTO dto) {
+        return CreateUserCommand.builder()
+                .username(dto.getUsername())
+                .email(dto.getEmail())
+                .password(dto.getPassword())
+                .fullName(dto.getFullName())
+                .phoneNumber(dto.getPhoneNumber())
+                .cpf(dto.getCpf())
+                .build();
+    }
 
-    public User toDomainFromCommand(UserCreateCommand command) {
+    public UpdatePasswordCommand toUpdatePasswordFromDomain(UUID userId, UpdatePasswordDTO dto) {
+        return UpdatePasswordCommand.builder()
+                .userId(userId)
+                .password(dto.getPassword())
+                .oldPassword(dto.getOldPassword())
+                .build();
+    }
+
+    public User toDomainFromUpdatePasswordCommand(UpdatePasswordCommand updatePasswordCommand, User user) {
+        return user.toBuilder()
+                .password(passwordEncoder.encode(updatePasswordCommand.password()))
+                .updateDate(OffsetDateTime.now())
+                .build();
+    }
+
+    public User toDomainFromCommand(CreateUserCommand command) {
         return User.builder()
                 .username(command.username())
                 .email(command.email())
@@ -128,14 +152,21 @@ public class UserMapper {
     }
 
 
-    public User toDomainFromCommand(UserUpdateCommand userUpdateCommand, User existingUser) {
+    public User toDomainFromCommand(UpdateUserCommand updateUserCommand, User existingUser) {
         return existingUser.toBuilder()
-                .username(userUpdateCommand.username())
-                .fullName(userUpdateCommand.fullName())
-                .phoneNumber(userUpdateCommand.phoneNumber())
+                .username(updateUserCommand.username())
+                .fullName(updateUserCommand.fullName())
+                .phoneNumber(updateUserCommand.phoneNumber())
                 .updateDate(OffsetDateTime.now())
                 .build();
 
+    }
+
+    public User toUpdateEmployeeDomainFromCommand(User user) {
+        return user.toBuilder()
+                .userType(UserType.EMPLOYEE)
+                .updateDate(OffsetDateTime.now())
+                .build();
     }
 
     public void updateEntityFromDomain(UserEntity entity, User user) {

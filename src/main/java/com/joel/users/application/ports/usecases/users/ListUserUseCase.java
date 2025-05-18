@@ -5,5 +5,5 @@ import com.joel.users.domain.pagination.Pagination;
 
 public interface ListUserUseCase {
 
-    Pagination<User> findAll(int page, int size);
+    Pagination<User> execute(int page, int size);
 }

@@ -11,7 +11,7 @@ import org.hibernate.validator.constraints.br.CPF;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserRequestDTO {
+public class CreateUserRequestDTO {
 
     @NotBlank
     @Size(min = 6, max = 50)
